@@ -4,11 +4,11 @@ Sprites renderer is a small tool to make it easier to manage sprites animations.
 
 ## Demo
 
--   [Basic](https://leochocolat.github.io/sprites-renderer/demo/?demo=Basic)
--   [Canvas2d](https://leochocolat.github.io/sprites-renderer/demo/?demo=Canvas2d)
--   [Threejs1](https://leochocolat.github.io/sprites-renderer/demo/?demo=Threejs1)
--   [Threejs2](https://leochocolat.github.io/sprites-renderer/demo/?demo=Threejs2)
--   [TexturePacker](https://leochocolat.github.io/sprites-renderer/demo/?demo=TexturePacker)
+-   [Basic](https://leochocolat.github.io/sprites-renderer/demo/?example=Basic)
+-   [Canvas2d](https://leochocolat.github.io/sprites-renderer/demo/?example=Canvas2d)
+-   [Threejs1](https://leochocolat.github.io/sprites-renderer/demo/?example=Threejs1)
+-   [Threejs2](https://leochocolat.github.io/sprites-renderer/demo/?example=Threejs2)
+-   [TexturePacker](https://leochocolat.github.io/sprites-renderer/demo/?example=TexturePacker)
 -   More to come...
 
 ## Installation
