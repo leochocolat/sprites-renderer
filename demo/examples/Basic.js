@@ -20,7 +20,7 @@ export default class Basic {
 
     _createImage() {
         const image = new Image();
-        image.src = '/assets/attack.png';
+        image.src = 'assets/attack.png';
         return image;
     }
 

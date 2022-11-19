@@ -5395,7 +5395,7 @@
       key: "_createImage",
       value: function _createImage() {
         var image = new Image();
-        image.src = '/assets/attack.png';
+        image.src = 'assets/attack.png';
         return image;
       }
     }, {
@@ -5511,7 +5511,7 @@
       key: "_createImage",
       value: function _createImage() {
         var image = new Image();
-        image.src = '/assets/attack.png';
+        image.src = 'assets/attack.png';
         return image;
       }
     }, {

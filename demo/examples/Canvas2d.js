@@ -23,7 +23,7 @@ export default class Canvas2d {
 
     _createImage() {
         const image = new Image();
-        image.src = '/assets/attack.png';
+        image.src = 'assets/attack.png';
         return image;
     }
 
