@@ -1,7 +1,12 @@
 export default class SpriteRenderer {
-    constructor(spriteAnimation, options = {}) {
+    /**
+     *
+     * @param {SpritesManager} spritesManager
+     * @param {object} options
+     */
+    constructor(spritesManager, options = {}) {
         // Props
-        this._spriteAnimation = spriteAnimation;
+        this._spritesManager = spritesManager;
 
         this._width = options.width;
         this._height = options.height;
@@ -11,6 +16,8 @@ export default class SpriteRenderer {
 
         // Setup
         this._context = this._canvas.getContext('2d');
+
+        this.resize(this._width, this._height);
     }
 
     /**
@@ -48,6 +55,11 @@ export default class SpriteRenderer {
         this._height = null;
     }
 
+    /**
+     *
+     * @param {number} width
+     * @param {number} height
+     */
     resize(width, height) {
         this._width = width;
         this._height = height;
@@ -60,8 +72,8 @@ export default class SpriteRenderer {
      * Private
      */
     drawSpriteFrame() {
-        const image = this._spriteAnimation.image;
-        const frame = this._spriteAnimation.frame;
+        const image = this._spritesManager.image;
+        const frame = this._spritesManager.frame;
 
         this._context.drawImage(
             image,

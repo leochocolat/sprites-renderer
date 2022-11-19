@@ -1,7 +1,9 @@
-import SpriteAnimation from './SpriteAnimation';
+import SpritesManager from './SpritesManager';
 import SpriteRenderer from './SpriteRenderer';
+import drawSpriteFrame from './helpers/drawSpriteFrame';
 
 export {
-    SpriteAnimation,
+    SpritesManager,
     SpriteRenderer,
+    drawSpriteFrame,
 };
