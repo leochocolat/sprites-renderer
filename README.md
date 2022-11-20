@@ -63,17 +63,17 @@ Then you can use any tween library you like to update the frameIndex to handle t
 // ...
 
 const timeline = new gsap.timeline({ repeat: -1 });
-    timeline.fromTo(
-        spritesManager,
-        {
-            frameIndex: 0
-        }, 
-        {
-            duration: 2,
-            frameIndex: spritesManager.frames.length,
-            ease: 'none'
-        }
-    );
+timeline.fromTo(
+    spritesManager,
+    {
+        frameIndex: 0
+    }, 
+    {
+        duration: 2,
+        frameIndex: spritesManager.frames.length,
+        ease: 'none'
+    }
+);
 ```
 
 Note that a modifier is applied to the frameIndex value, with a Math.floor and a modulo using the amount of frames:
@@ -96,7 +96,7 @@ console.log(spritesManager.frameIndex) // Output: 1
 
 ### Handling rendering yourself
 
-For many different use case the sprite renderer is probably gonna be too restrictive. In that case you can take care of the rendering yourself and only use the sprites manager along with a nice helper function.
+For many different use cases the SpriteRenderer is probably gonna be too restrictive. In that case you can take care of the rendering yourself and only use the SpritesManager along with a nice helper function.
 
 ```js
 import { SpritesManager, drawSpriteFrame } from 'sprites-renderer';
@@ -145,9 +145,67 @@ tick();
 
 ### SpritesManager class
 
+| Param        | Type                                  | Description                                              |
+| ------------ | --------------------------------------| -------------------------------------------------------- |
+| image        | <code>HTMLImageElement</code>         | Image that contains all the sprites                      |
+| frames       | <code>Array(Object)</code>            | Array of frames data ("x", "y", "width", "height")       |
+
+#### Properties
+
+`image` : HTMLImageElement
+
+`frames` : Array(Object)
+
+`frameIndex` : Int
+
+`frame` : Object
+
+#### Methods
+
+`getFrame(frameIndex)` : Object
+
+`destroy()` : null
+
 ### SpriteRenderer class
 
+| Param          | Type                                | Description                                              |
+| -------------- | ------------------------------------| -------------------------------------------------------- |
+| spritesManager | <code>SpritesManager</code>         | Sprites Manager instance to render                       |
+| canvas         | <code>HTMLCanvasElement</code>      | Canvas to render on                                      |
+| width          | <code>Int</code>                    | Canvas width                                             |
+| height         | <code>Int</code>                    | Canvas height                                            |
+| background     | <code>String</code>                 | FillStyle value of the background (ex: rgba(0, 0, 0, 1)) |
+| clear          | <code>Bool</code>                   | Whether or not to call a clearRect() on the canvas       |
+
+#### Properties
+
+`width` : Int
+
+`height` : Int
+
+`canvas` : HTMLCanvasElement
+
+`context` : CanvasRenderingContext2D
+
+#### Methods
+
+`render()` : null
+
+`destroy()` : null
+
+`resize(width, height)` : null
+
 ### drawSpriteFrame function
+
+| Param        | Type                                  | Description                                              |
+| ------------ | ------------------------------------- | -------------------------------------------------------- |
+| context      | <code>CanvasRenderingContext2D</code> | Canvas context                                           |
+| image        | <code>HTMLImageElement</code>         | Image that contains all the sprites                      |
+| frame        | <code>Object</code>                   | Frame data ("x", "y", "width", "height")                 |
+| x            | <code>Float</code>                    | Position x of the sprite to draw on the canvas           |
+| y            | <code>Float</code>                    | Position y of the sprite to draw on the canvas           |
+| width        | <code>Int</code>                      | Width of the sprite to draw on the canvas                |
+| height       | <code>Int</code>                      | Height of the sprite to draw on the canvas               |
 
 ## Development
 

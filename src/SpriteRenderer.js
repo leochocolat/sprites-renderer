@@ -8,9 +8,9 @@ export default class SpriteRenderer {
         // Props
         this._spritesManager = spritesManager;
 
+        this._canvas = options.canvas;
         this._width = options.width;
         this._height = options.height;
-        this._canvas = options.canvas;
         this._background = options.background;
         this._clear = options.clear;
 
@@ -47,7 +47,7 @@ export default class SpriteRenderer {
         this._context.fillRect(0, 0, this._width, this._height);
         if (this._clear) this._context.clearRect(0, 0, this._width, this._height);
 
-        this.drawSpriteFrame();
+        this._drawSpriteFrame();
     }
 
     destroy() {
@@ -71,7 +71,7 @@ export default class SpriteRenderer {
     /**
      * Private
      */
-    drawSpriteFrame() {
+    _drawSpriteFrame() {
         const image = this._spritesManager.image;
         const frame = this._spritesManager.frame;
 

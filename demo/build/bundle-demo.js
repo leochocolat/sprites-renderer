@@ -80,14 +80,14 @@
 
       /**
        * Get a specific frame object
-       * @param {number} frame
+       * @param {number} frameIndex
        * @returns {object}
        */
     }, {
       key: "getFrame",
-      value: function getFrame(frame) {
-        if (isNaN(parseInt(frame))) return this.frame;
-        return this._frames[index];
+      value: function getFrame(frameIndex) {
+        if (isNaN(parseInt(frameIndex))) return this.frame;
+        return this._frames[Math.floor(frameIndex % this._frames.length)];
       }
     }]);
     return SpritesManager;
@@ -104,9 +104,9 @@
       _classCallCheck(this, SpriteRenderer);
       // Props
       this._spritesManager = spritesManager;
+      this._canvas = options.canvas;
       this._width = options.width;
       this._height = options.height;
-      this._canvas = options.canvas;
       this._background = options.background;
       this._clear = options.clear;
 
@@ -148,7 +148,7 @@
         this._context.fillStyle = this._background;
         this._context.fillRect(0, 0, this._width, this._height);
         if (this._clear) this._context.clearRect(0, 0, this._width, this._height);
-        this.drawSpriteFrame();
+        this._drawSpriteFrame();
       }
     }, {
       key: "destroy",
@@ -175,8 +175,8 @@
        * Private
        */
     }, {
-      key: "drawSpriteFrame",
-      value: function drawSpriteFrame() {
+      key: "_drawSpriteFrame",
+      value: function _drawSpriteFrame() {
         var image = this._spritesManager.image;
         var frame = this._spritesManager.frame;
         this._context.drawImage(image, frame.x, frame.y, frame.width, frame.height, 0, 0, this._width, this._height);

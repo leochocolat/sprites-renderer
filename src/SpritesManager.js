@@ -42,12 +42,11 @@ export default class SpritesManager {
 
     /**
      * Get a specific frame object
-     * @param {number} frame
+     * @param {number} frameIndex
      * @returns {object}
      */
-    getFrame(frame) {
-        if (isNaN(parseInt(frame))) return this.frame;
-
-        return this._frames[index];
+    getFrame(frameIndex) {
+        if (isNaN(parseInt(frameIndex))) return this.frame;
+        return this._frames[Math.floor(frameIndex % this._frames.length)];
     }
 }
