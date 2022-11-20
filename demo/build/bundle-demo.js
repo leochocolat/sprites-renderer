@@ -7014,16 +7014,214 @@
       key: "_resizeHandler",
       value: function _resizeHandler() {
         this._resize(window.innerWidth, window.innerHeight);
-        this._positions = this._createPositions();
       }
     }]);
     return Threejs1;
   }();
 
-  var Threejs2 = /*#__PURE__*/_createClass(function Threejs2() {
-    _classCallCheck(this, Threejs2);
-    document.body.innerHTML = 'Coming soon';
-  });
+  var Threejs2 = /*#__PURE__*/function () {
+    function Threejs2() {
+      _classCallCheck(this, Threejs2);
+      this._image = this._createImage();
+      this._canvas = this._createCanvas();
+      this._spritesManager = this._createSpritesManager();
+      this._renderer = this._createRenderer();
+      this._texture = this._createTexture();
+      this._scene = this._createScene();
+      this._camera = this._createCamera();
+      this._box = this._createBox();
+      this._resize(window.innerWidth, window.innerHeight);
+      this._setupEventListeners();
+      this._start();
+    }
+    _createClass(Threejs2, [{
+      key: "_start",
+      value: function _start() {
+        var _this = this;
+        this._tick();
+        var timeline = new gsapWithCSS.timeline({
+          repeat: -1,
+          onUpdate: function onUpdate() {
+            _this._box.material.uniforms.uFrameOffsetX.value = _this._spritesManager.frame.x / _this._spritesManager.image.width;
+            _this._box.material.uniforms.uFrameOffsetY.value = _this._spritesManager.frame.y / _this._spritesManager.image.height;
+            _this._box.material.uniforms.uFrameScaleX.value = _this._spritesManager.frame.width / _this._spritesManager.image.width;
+            _this._box.material.uniforms.uFrameScaleY.value = _this._spritesManager.frame.height / _this._spritesManager.image.height;
+          }
+        });
+        timeline.fromTo(this._spritesManager, {
+          frameIndex: 0
+        }, {
+          duration: 0.8,
+          frameIndex: this._spritesManager.frames.length,
+          ease: 'none'
+        });
+      }
+    }, {
+      key: "_createImage",
+      value: function _createImage() {
+        var image = new Image();
+        image.src = 'assets/attack.png';
+        return image;
+      }
+    }, {
+      key: "_createCanvas",
+      value: function _createCanvas() {
+        var canvas = document.querySelector('.js-canvas');
+        return canvas;
+      }
+    }, {
+      key: "_createSpritesManager",
+      value: function _createSpritesManager() {
+        var width = 150;
+        var height = 150;
+        var spritesManager = new SpritesManager({
+          image: this._image,
+          frames: [{
+            x: 0,
+            y: 0,
+            width: width,
+            height: height
+          }, {
+            x: width * 1,
+            y: 0,
+            width: width,
+            height: height
+          }, {
+            x: width * 2,
+            y: 0,
+            width: width,
+            height: height
+          }, {
+            x: width * 3,
+            y: 0,
+            width: width,
+            height: height
+          }, {
+            x: width * 4,
+            y: 0,
+            width: width,
+            height: height
+          }, {
+            x: width * 5,
+            y: 0,
+            width: width,
+            height: height
+          }, {
+            x: width * 6,
+            y: 0,
+            width: width,
+            height: height
+          }, {
+            x: width * 7,
+            y: 0,
+            width: width,
+            height: height
+          }]
+        });
+        return spritesManager;
+      }
+    }, {
+      key: "_createRenderer",
+      value: function _createRenderer() {
+        var renderer = new WebGLRenderer({
+          antialias: true,
+          canvas: this._canvas,
+          alpha: true
+        });
+        return renderer;
+      }
+    }, {
+      key: "_createTexture",
+      value: function _createTexture() {
+        var texture = new Texture(this._spritesManager.image);
+        texture.needsUpdate = true;
+        return texture;
+      }
+    }, {
+      key: "_createScene",
+      value: function _createScene() {
+        var scene = new Scene();
+        return scene;
+      }
+    }, {
+      key: "_createCamera",
+      value: function _createCamera() {
+        var camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 2;
+        return camera;
+      }
+    }, {
+      key: "_createBox",
+      value: function _createBox() {
+        var geometry = new BoxGeometry(1, 1, 1);
+        var material = new ShaderMaterial({
+          uniforms: {
+            uMap: {
+              value: this._texture
+            },
+            uFrameOffsetX: {
+              value: 0
+            },
+            uFrameOffsetY: {
+              value: 0
+            },
+            uFrameScaleX: {
+              value: 0
+            },
+            uFrameScaleY: {
+              value: 0
+            }
+          },
+          vertexShader: "\n                // Varyings\n                varying vec2 vUv;\n                varying vec4 vPosition;\n                \n                void main() {\n                    vec4 pos = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n                    pos.xyz /= pos.w;\n                \n                    vUv = uv;\n                    vPosition = pos;\n                \n                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n                }\n            ",
+          fragmentShader: "\n                // Varyings\n                varying vec2 vUv;\n\n                // Uniforms\n                uniform sampler2D uMap;\n                uniform float uFrameOffsetX;\n                uniform float uFrameOffsetY;\n                uniform float uFrameScaleX;\n                uniform float uFrameScaleY;\n                \n                void main() {\n                    vec2 frameUv = vUv * vec2(uFrameScaleX, uFrameScaleY);\n                    frameUv.x += uFrameOffsetX;\n                    frameUv.y += uFrameOffsetY;\n\n                    gl_FragColor = texture2D(uMap, frameUv);\n                    gl_FragColor.a = 1.0;\n                }\n            "
+        });
+        var mesh = new Mesh(geometry, material);
+        this._scene.add(mesh);
+        return mesh;
+      }
+    }, {
+      key: "_tick",
+      value: function _tick() {
+        this._update();
+        this._render();
+        window.requestAnimationFrame(this._tick.bind(this));
+      }
+    }, {
+      key: "_update",
+      value: function _update() {
+        this._box.rotation.x += 0.005;
+        this._box.rotation.y += 0.005;
+        this._box.rotation.z += 0.005;
+      }
+    }, {
+      key: "_render",
+      value: function _render() {
+        this._renderer.render(this._scene, this._camera);
+      }
+    }, {
+      key: "_resize",
+      value: function _resize(width, height) {
+        this._renderer.setSize(width, height, true);
+        this._camera.aspect = width / height;
+        this._camera.updateProjectionMatrix();
+      }
+
+      /**
+       * Events
+       */
+    }, {
+      key: "_setupEventListeners",
+      value: function _setupEventListeners() {
+        window.addEventListener('resize', this._resizeHandler.bind(this));
+      }
+    }, {
+      key: "_resizeHandler",
+      value: function _resizeHandler() {
+        this._resize(window.innerWidth, window.innerHeight);
+      }
+    }]);
+    return Threejs2;
+  }();
 
   var TexturePacker = /*#__PURE__*/_createClass(function TexturePacker() {
     _classCallCheck(this, TexturePacker);

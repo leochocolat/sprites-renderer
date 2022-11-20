@@ -173,6 +173,5 @@ export default class Threejs1 {
 
     _resizeHandler() {
         this._resize(window.innerWidth, window.innerHeight);
-        this._positions = this._createPositions();
     }
 }
